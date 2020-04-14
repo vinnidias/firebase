@@ -12,6 +12,7 @@ admin.initializeApp({
 var tabelaCarros = 'Tabela de carros'
 var db = admin.database().ref(tabelaCarros)
 
+
 function cadastraCarro(){
     var marca = user.question('digite a marca do carro: ')
     var carroNome = user.question('digite o modelo do carro que deseja inserir: ')
@@ -34,9 +35,8 @@ function cadastraCarro(){
 function mostraCarros(){
     db.on('value', snapshot =>{
        console.log(snapshot.val()) 
-      
-    },()=>{
-        menu()
+       menu()
+    
     })
 }
 
@@ -44,9 +44,11 @@ function filtroMaiorValor(){
  var valorPesquisado = user.questionInt('digite o valor minimo para o filtro: ')   
     db.orderByChild('valor').startAt(valorPesquisado)
         .on('child_added', snapshot =>{
-    console.log(snapshot.val())
-    menu()
-})
+            console.log(snapshot.val())
+        })
+        .then(()=>{
+            console.log('foi')
+        })
 }
 
 function filtroMenorValor(){
@@ -78,7 +80,7 @@ function filtroModelo(){
        })
    }
 
-   function filtroMarca(){
+function filtroMarca(){
     var valorPesquisado = user.question('digite a marca do carro a ser pesquisado: ')
     db.orderByChild('marca').equalTo(valorPesquisado)
        .on('child_added', snapshot =>{
